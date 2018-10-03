@@ -1,11 +1,11 @@
 import subprocess
-
+from finder import find
 class PhysicalMemory:
 	def getTotalMemory(self):
-		return subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[0]
+		return find('MemTotal', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))
 
 	def getFreeMemory(self):
-		return subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[1]
+		return find('MemFree', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))
 		
 	def getAvailableMemory(self):
-		return subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[2]
+		return find('MemAvailable', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))

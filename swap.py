@@ -1,16 +1,15 @@
 import subprocess
-
+from finder import find
 class Swap:
 	def getTotalSwap(self):
-		return subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[14]
+		return find('SwapTotal', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))
 
 	def getFreeSwap(self):
-		return subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[15]
+		return find('SwapFree', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))
 	
 	def getAvailableSwap(self):
-		result = subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n')[16]
-		if not 'Dirty' in result:
+		result = find('SwapAvailable', subprocess.check_output(['cat', '/proc/meminfo']).decode('utf-8').split('\n'))
+		if not result == '':
 			return result
 		else:
 			return 'SwapAvailable:         0 kB'
-		
