@@ -25,7 +25,7 @@ def analyze(byteMessage):
 	elif 'stor' in message:
 		return analyzeStorage(message)
 	elif 'netstat' in message:
-		return checkC()
+		return checkConnection()
 	elif 'log' in message:
 		return log().encode('utf-8')
 	else: 
@@ -85,14 +85,21 @@ def analyzeStorage(message):
 		return unspecified.encode('utf-8')
 
 
-def checkC():
+def checkConnection():
 	return subprocess.check_output("ping -c1 google.com && echo \"*****INTERNET ONLINE*****\" || echo \"*****INTERNET OFFLINE*****\"", shell=True)
 
 def log():
 	return str(logAccess)
 
+def usage():
+	return('USAGE:\n\n\
+	hardware -> return hardware usage info\n\
+	--arch        architecture of the hardware\n\
+	--mod         model info like Intel or AMD with core and clock\n\
+	--cache       cache info of the computer')
 
-serverPort = 12034
+
+serverPort = 12001
 serverSocket = socket(AF_INET,SOCK_STREAM)
 serverSocket.bind(('',serverPort))
 print('The server is ready to receive')
